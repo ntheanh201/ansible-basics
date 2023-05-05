@@ -1,0 +1,20 @@
+leafs:
+  hosts:
+    vm01:
+      ansible_host: vm01
+      ansible_ssh_user: test
+      ansible_port: 2222
+      ansible_ssh_pass: test
+spines:
+  hosts:
+    vm02:
+      ansible_host: vm02
+      ansible_ssh_user: test
+      ansible_port: 2223
+      ansible_ssh_pass: test
+
+network:
+  children:
+    leafs:
+    spines:
+
