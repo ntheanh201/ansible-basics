@@ -8,6 +8,8 @@ docker build -t ubuntu-server-local .
 docker run -itd --name ubuntu-server-local -p 2222:22 ubuntu-server-local
 ```
 
+**Test**: ssh test@vm01 -p 2222
+
 # Ansible
 
 - Ping: `ansible all -m ping`
@@ -23,5 +25,8 @@ ansible leafs -m ping -i inventory.yaml
 ansible spines -m ping -i inventory.yaml
 ```
 
-- 
+## Playbook
+- Run playbook: `ansible-playbook -i inventory.yaml playbooks/ping.yaml`
+
+
 
