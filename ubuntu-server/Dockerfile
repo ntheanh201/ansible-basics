@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt update && apt install  openssh-server sudo -y
+RUN apt update && apt install vim openssh-server sudo -y
 
 RUN useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 test 
 
