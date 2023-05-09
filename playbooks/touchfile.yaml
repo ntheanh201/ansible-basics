@@ -3,6 +3,9 @@
   remote_user: root
 
   tasks:
+  - name: Touch file with hostname role
+    include_role:
+      name: hostname
   - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
     ansible.builtin.file:
       path: /etc/foo.conf
