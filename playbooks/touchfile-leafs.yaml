@@ -1,22 +1,16 @@
 - name: Update web servers
-  gather_facts: false
   hosts: string
   remote_user: root
-
+  roles:
+    - hostname
   tasks:
-  - name: Touch file with hostname role
-    include_role:
-      name: hostname
-    vars:
-      dir: '/opt/a'
-    tags: typeA
   - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
     ansible.builtin.file:
-      path: /etc/foo.conf
+      path: /foo.conf
       state: touch
       mode: u=rw,g=r,o=r
   - name: Create a directory if it does not exist
     ansible.builtin.file:
-      path: /etc/some_directory
+      path: /some_directory
       state: directory
       mode: '0755'

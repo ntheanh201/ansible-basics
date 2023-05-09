@@ -2,12 +2,14 @@
 # tasks file for hostname
 - name: Install the correct web server for Ubuntu
   ansible.builtin.file:
-    path: /etc/bar.conf
+    path: /bar.conf
     state: touch
     mode: u=rw,g=r,o=r
+  tags: mytag
 
 - name: Install the bar2 for Ubuntu
   ansible.builtin.file:
-    path: /etc/bar2.conf
+    path: /bar2.conf
     state: touch
     mode: u=rw,g=r,o=r
+  tags: typeA
