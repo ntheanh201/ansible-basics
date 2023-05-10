@@ -30,3 +30,26 @@
       createhome: yes
       generate_ssh_key: yes
       password: "{{ 'john' | password_hash('sha512') }}"
+  - name: Install git
+    package:
+      name: git
+      state: present
+  - name: Copy file to server
+    copy:
+      src=/etc/hosts
+      dest=/tmp/hosts
+  - name: Fetch file from server
+    fetch:
+      src: /etc/hosts
+      dest: /tmp
+  - name: create directory
+    file:
+      dest: /tmp/test
+      mode: 644
+      state: directory
+  - name: create a symlink
+    file:
+      src: /tmp/test
+      dest: /tmp/test2
+      state: link
+#      other file management tools: lineinfile, ini_file, unarchive
