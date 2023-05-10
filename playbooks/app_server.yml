@@ -47,6 +47,16 @@
       dest: /tmp/test
       mode: 644
       state: directory
+#  - name: Simulate long running op (15 sec), wait for up to 20 sec, poll every 5 sec
+#    ansible.builtin.command: /bin/sleep 15
+#    async: 20
+#    poll: 5
+  - name: Update all packages centos
+    yum:
+      name: '*'
+      state: latest
+    async: 3600
+    poll: 0
   - name: create a symlink
     file:
       src: /tmp/test
