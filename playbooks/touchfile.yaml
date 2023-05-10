@@ -1,7 +1,7 @@
 - name: Update web servers
   gather_facts: false
   hosts: string
-  remote_user: root
+  become: yes
 
   tasks:
   - name: Touch file with hostname role
@@ -10,6 +10,9 @@
     vars:
       dir: '/opt/a'
     tags: typeA
+  - name: Setup NTP
+    include_role:
+      name: ntp
   - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
     ansible.builtin.file:
       path: /etc/foo.conf

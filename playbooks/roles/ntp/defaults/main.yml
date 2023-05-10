@@ -1,0 +1,4 @@
+---
+# defaults file for ntp
+ntp_server: 0.debian.pool.ntp.org
+timezone: Asia/Ho_Chi_Minh

@@ -1,0 +1,7 @@
+---
+# tasks file for ntp
+- name: Ensure NTP is installed and running
+  import_tasks: install.yml
+
+#- name: Uninstall NTP
+#  include_tasks: uninstall.yml
