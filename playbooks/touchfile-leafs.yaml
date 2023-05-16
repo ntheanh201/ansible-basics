@@ -1,9 +1,9 @@
 - name: Update web servers
   hosts: string
-  gather_facts: false
+#  gather_facts: false
   remote_user: root
-  roles:
-    - hostname
+#  roles:
+#    - hostname
   tasks:
   - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
     ansible.builtin.file:
@@ -15,6 +15,6 @@
       path: /some_directory
       state: directory
       mode: '0755'
-  - name: Gather facts about distribution
+  - name:  Gather facts about distribution
     debug:
-      msg: '{{ ansible_distribution }}'
+      msg: "{{ ansible_facts['distribution'] }}"

@@ -187,7 +187,72 @@ performing troubleshooting operations
 
 ### Playbook Structure
 
+They contain Plays (which are the basic unit of Ansible execution). This is both an ‘execution concept’ and how we
+describe the files on which ansible-playbook operates. Playbooks are written in YAML and are easy to read, write, share
+and understand
+
+#### Plays
+
+The main context for Ansible execution, this playbook object maps managed nodes (hosts) to tasks. The Play contains
+variables, roles and an ordered lists of tasks and can be run repeatedly. It basically consists of an implicit loop over
+the mapped hosts and tasks and defines how to iterate over them.
+
+![](./talk/assets/play.png)
+
+#### Roles
+
+A limited distribution of reusable Ansible content (tasks, handlers, variables, plugins, templates and files) for use
+inside of a Play. To use any Role resource, the Role itself must be imported into the Play.
+
+![](./talk/assets/role_folder.png)
+![](./talk/assets/role_include.png)
+
+#### Tasks
+
+The definition of an ‘action’ to be applied to the managed host. Tasks must always be contained in a Play, directly or
+indirectly (Role, or imported/included task list file). You can execute a single task once with an ad hoc command using
+ansible or ansible-console (both create a virtual Play).
+
+![](./talk/assets/tasks.png)
+
+#### Handlers
+
+A special form of a Task, that only executes when notified by a previous task which resulted in a ‘changed’ status.
+
+![](./talk/assets/handler_restart.png)
+![](./talk/assets/handler_notify.png)
+
 ### Variables & Facts
+
+#### Variables
+
+- Variables in Ansible are used to store and manage data that can be referenced and utilized within playbooks,
+  templates,
+  and other Ansible constructs. Variables can be defined at different levels, including inventory level, playbook level,
+  group level, or host level. They allow for flexibility and reusability in configuring tasks and playbooks for
+  different
+  scenarios.
+    - **Inventory Variables**: Variables can be defined in the inventory file using YAML syntax or in separate variable
+      files associated with the inventory. These variables can be used to configure settings specific to hosts or groups
+      defined in the inventory.
+    - **Playbook Variables**: Playbooks can define their own variables using YAML syntax. These variables can be set
+      globally for the entire playbook or specific to certain plays, roles, or tasks within the playbook.
+    - **Host and Group Variables**: Variables can be assigned to individual hosts or groups in the inventory. These
+      variables can override the inventory-level or playbook-level variables for specific hosts or groups.
+
+![](./talk/assets/vars.png)
+
+#### Facts
+
+- Facts in Ansible are system-related information collected from managed nodes during playbook execution. Facts provide
+  valuable details about the target systems, including network interfaces, hardware specifications, operating system
+  details, and more. Ansible automatically collects facts from managed nodes and makes them available as variables.
+
+- Ansible gathers facts by default when executing playbooks. However, you can also explicitly gather facts using the
+  _gather_facts_ option set to true in a playbook
+
+![](./talk/assets/facts.png)
+![](./talk/assets/use_facts.png)
 
 ### Conditions & Loops
 

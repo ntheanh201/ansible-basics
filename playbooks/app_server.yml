@@ -4,9 +4,9 @@
   become: true
 
   tasks:
-#  - name: Setup NTP
-#    include_role:
-#      name: centos_ntp
+  - name: Setup NTP
+    include_role:
+      name: centos_ntp
   - name: install pip3
     yum:
       name: python3-pip

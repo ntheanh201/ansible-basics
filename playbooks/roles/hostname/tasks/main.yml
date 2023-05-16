@@ -13,3 +13,7 @@
     state: touch
     mode: u=rw,g=r,o=r
   tags: typeA
+
+- name: Debug directory name
+  debug:
+    msg: "{{ dir }}"
