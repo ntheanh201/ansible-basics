@@ -129,6 +129,10 @@ http_port=80
 max_connections=1000
 ```
 
+Verify inventory: `ansible-inventory -i inventory.yml --list`
+
+![](./talk/assets/list_inventory.png)
+
 ### Ad-hoc Commands
 
 Ansible ad-hoc commands are one-liner commands that allow you to perform quick tasks on managed nodes without the need
@@ -139,7 +143,7 @@ performing troubleshooting operations
 
   `ansible <host-pattern> -m <module> -a "<module arguments>"`
 
-- **<host-pattern>**: Specifies the target hosts or groups of hosts. It can be a single host, a group of hosts defined
+- **host-pattern**: Specifies the target hosts or groups of hosts. It can be a single host, a group of hosts defined
   in
   the inventory, or a pattern to match multiple hosts.
 - **-m (module)**: Specifies the Ansible module to be executed on the target hosts.
@@ -151,27 +155,33 @@ performing troubleshooting operations
 
   This command pings all hosts defined in the inventory to check if they are reachable
 
+![](./talk/assets/ping.png)
+
 - Gather system facts: `ansible all -m setup`
 
   This command collects various system facts from all hosts, providing detailed information about the systems, including
   hardware, networking, and operating system details.
 
+![](./talk/assets/gather_facts.png)
+
 - Execute a shell command: `ansible web_servers -m shell -a "uptime"`
 
   This command runs the uptime command on the hosts belonging to the web_servers group, displaying the system's uptime.
 
+![](./talk/assets/uptime.png)
+
 - Install a package: `ansible db_servers -m apt -a "name=mysql-server state=present"`
 
   This command installs the mysql-server package on hosts belonging to the db_servers group using the apt module.
+
+![](./talk/assets/install_package.png)
 
 - Copy a file: `ansible web_servers -m copy -a "src=/path/to/local/file dest=/path/on/remote/server"`
 
   This command copies a file from the local system to the remote hosts belonging to the web_servers group using the copy
   module.
 
-- Restart a service: `ansible app_servers -m service -a "name=httpd state=restarted"`
-
-  This command restarts the httpd service on hosts belonging to the app_servers group using the service module.
+![](./talk/assets/copy.png)
 
 ## Ansible Playbooks & Roles
 
