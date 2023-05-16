@@ -99,7 +99,7 @@ Here's how inventory management works:
 
 1. Defining Managed Nodes
 
-```ansible
+```shell
 [web_servers]  # --> group name
 server1.example.com # --> node
 server2.example.com
@@ -111,7 +111,7 @@ db2.example.com
 
 2. Grouping Managed Nodes
 
-```ansible
+```shell
 [production:children] # --> parent group
 web_servers
 database_servers
@@ -119,7 +119,7 @@ database_servers
 
 3. Variables and Additional Information
 
-```ansible
+```shell
 [web_servers]
 server1.example.com ansible_user=ubuntu
 
@@ -207,7 +207,13 @@ A limited distribution of reusable Ansible content (tasks, handlers, variables, 
 inside of a Play. To use any Role resource, the Role itself must be imported into the Play.
 
 ![](./talk/assets/role_folder.png)
-![](./talk/assets/role_include.png)
+
+```yaml
+tasks:
+  - name: Setup NTP
+    include_role:
+      name: centos_ntp
+```
 
 #### Tasks
 
@@ -242,7 +248,14 @@ A special form of a Task, that only executes when notified by a previous task wh
     - **Host and Group Variables**: Variables can be assigned to individual hosts or groups in the inventory. These
       variables can override the inventory-level or playbook-level variables for specific hosts or groups.
 
-![](./talk/assets/vars.png)
+```yaml
+  vars:
+    node_apps_location: /usr/local/opt/node
+
+  tasks:
+    - name: Copy example Node.js app to server.
+      copy: "src=app dest={{ node_apps_location }}"
+```
 
 #### Facts
 
@@ -253,10 +266,55 @@ A special form of a Task, that only executes when notified by a previous task wh
 - Ansible gathers facts by default when executing playbooks. However, you can also explicitly gather facts using the
   _gather_facts_ option set to true in a playbook
 
-![](./talk/assets/facts.png)
-![](./talk/assets/use_facts.png)
+```yaml
+- name: Update web servers
+  hosts: string
+  gather_facts: false
+  tasks:
+    - name: Gather facts about distribution
+      debug:
+        msg: "{{ ansible_facts['distribution'] }}"
+```
 
 ### Conditions & Loops
+
+#### Condition
+
+```yaml
+  - name: Install Apache on Debian
+    apt:
+      name: apache2
+      state: present
+    when: ansible_distribution == 'Debian'
+```
+
+![](./talk/assets/condition_play.png)
+
+#### Loops
+
+```yaml
+  - name: Install multiple packages
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - nginx
+      - mysql-server
+      - php-fpm
+```
+
+```yaml
+  - name: Create multiple users
+    user:
+      name: "{{ item.key }}"
+      password: "{{ item.value.password }}"
+      state: present
+    with_dict:
+      user1:
+        password: pass1
+      user2:
+        password: pass2
+```
 
 ### Roles & Role-based Tasks
 

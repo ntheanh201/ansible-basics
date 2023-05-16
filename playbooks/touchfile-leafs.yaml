@@ -1,20 +1,31 @@
 - name: Update web servers
   hosts: string
-#  gather_facts: false
-  remote_user: root
-#  roles:
-#    - hostname
+  gather_facts: false
   tasks:
-  - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
-    ansible.builtin.file:
-      path: /foo.conf
-      state: touch
-      mode: u=rw,g=r,o=r
-  - name: Create a directory if it does not exist
-    ansible.builtin.file:
-      path: /some_directory
-      state: directory
-      mode: '0755'
   - name:  Gather facts about distribution
     debug:
       msg: "{{ ansible_facts['distribution'] }}"
+  - name: Install Apache on Debian
+    apt:
+      name: apache2
+      state: present
+    when: ansible_distribution == 'Debian'
+  - name: Install multiple packages
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - nginx
+      - mysql-server
+      - php-fpm
+    when: ansible_distribution == 'Debian'
+  - name: Create multiple users
+    user:
+      name: "{{ item.key }}"
+      password: "{{ item.value.password }}"
+      state: present
+    with_dict:
+      user1:
+        password: pass1
+      user2:
+        password: pass2
