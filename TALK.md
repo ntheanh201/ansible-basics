@@ -68,13 +68,110 @@ automate and manage infrastructure configurations
   executed. They provide a way to orchestrate and automate complex workflows. Playbooks can include variables,
   conditionals, loops, and even include other playbooks or roles.
 
+### Modules
+
+- In Ansible, modules are small, self-contained units of code that are responsible for performing specific tasks on
+  managed nodes. They are the building blocks of automation in Ansible and serve as the primary means of interacting
+  with the managed infrastructure.
+- Modules encapsulate functionality related to various aspects of system administration, such as package management,
+  file manipulation, service configuration, user management, network operations, and more. Ansible ships with a broad
+  range of built-in modules that cover a wide variety of tasks commonly encountered in IT operations.
+- Example, there are modules for installing packages (
+  apt/yum/dnf/pacman), managing users (user), copying files (copy), manipulating files (lineinfile), and configuring
+  services (service), among many others.
+
 ## Getting Started with Ansible
 
 ### Installation & Configuration
 
+- Ensure that the control node meets the minimum system requirements for running Ansible. These requirements include
+  having a supported operating system (such as Linux, macOS, or Windows with WSL), sufficient memory and disk space, and
+  a stable network connection.
+- The managed node (the machine that Ansible is managing) does not require Ansible to be installed, but requires Python
+  2.7, or Python 3.5 - 3.11 to run Ansible library code. The managed node also needs a user account that can SSH to the
+  node with an interactive shell.
+
 ### Inventory Management
 
+Here's how inventory management works:
+
+1. Defining Managed Nodes
+
+```ansible
+[web_servers]  # --> group name
+server1.example.com # --> node
+server2.example.com
+
+[database_servers]
+db1.example.com
+db2.example.com
+```
+
+2. Grouping Managed Nodes
+
+```ansible
+[production:children] # --> parent group
+web_servers
+database_servers
+```
+
+3. Variables and Additional Information
+
+```ansible
+[web_servers]
+server1.example.com ansible_user=ubuntu
+
+[database_servers]
+db1.example.com ansible_user=root
+
+[production:vars]
+http_port=80
+max_connections=1000
+```
+
 ### Ad-hoc Commands
+
+Ansible ad-hoc commands are one-liner commands that allow you to perform quick tasks on managed nodes without the need
+for writing a separate playbook. Ad-hoc commands are useful for executing simple tasks, running one-off commands, or
+performing troubleshooting operations
+
+- The basic syntax of Ad-hoc command:
+
+  `ansible <host-pattern> -m <module> -a "<module arguments>"`
+
+- **<host-pattern>**: Specifies the target hosts or groups of hosts. It can be a single host, a group of hosts defined
+  in
+  the inventory, or a pattern to match multiple hosts.
+- **-m (module)**: Specifies the Ansible module to be executed on the target hosts.
+- **-a "(module arguments)"**: Provides the arguments or parameters required by the specified module.
+
+#### Examples
+
+- Ping all hosts: `ansible all -m ping`:
+
+  This command pings all hosts defined in the inventory to check if they are reachable
+
+- Gather system facts: `ansible all -m setup`
+
+  This command collects various system facts from all hosts, providing detailed information about the systems, including
+  hardware, networking, and operating system details.
+
+- Execute a shell command: `ansible web_servers -m shell -a "uptime"`
+
+  This command runs the uptime command on the hosts belonging to the web_servers group, displaying the system's uptime.
+
+- Install a package: `ansible db_servers -m apt -a "name=mysql-server state=present"`
+
+  This command installs the mysql-server package on hosts belonging to the db_servers group using the apt module.
+
+- Copy a file: `ansible web_servers -m copy -a "src=/path/to/local/file dest=/path/on/remote/server"`
+
+  This command copies a file from the local system to the remote hosts belonging to the web_servers group using the copy
+  module.
+
+- Restart a service: `ansible app_servers -m service -a "name=httpd state=restarted"`
+
+  This command restarts the httpd service on hosts belonging to the app_servers group using the service module.
 
 ## Ansible Playbooks & Roles
 
