@@ -2,7 +2,9 @@
 
 ## Introduction to Ansible
 
-<img class="ansible-logo" src="./talk/assets/ansible.png" alt="img-verification" width="50%" />
+<p align="center">
+<img class="ansible-logo" src="./talk/assets/ansible.png" alt="img-verification" width="35%" />
+</p>
 
 ### What is Ansible?
 
