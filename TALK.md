@@ -59,9 +59,30 @@ automate and manage infrastructure configurations
 - It is also used for assigning groups, that both allow for node selection in the Play and bulk variable assignment.
 - Sometimes an inventory source file is also referred to as a ‘hostfile’.
 
-![Ansible hostfile](./talk/assets/ansible_hosts.png)
+- /etc/ansible/hosts
 
-![Ansible's inventory](./talk/assets/inventory.png)
+```shell
+[myvirtualmachines]
+vm01 ansible_ssh_user=test ansible_ssh_pass=test ansible_port=2222
+vm02 ansible_ssh_user=test ansible_ssh_pass=test ansible_port=2223
+vm03 ansible_ssh_user=test ansible_ssh_pass=test ansible_port=2224
+```
+
+- inventory.yml
+
+```yaml
+leafs:
+  hosts:
+    vm01:
+      ansible_host: vm01
+      ansible_port: 2222
+    vm03:
+      ansible_host: vm03
+      ansible_port: 2224
+  vars:
+    ansible_user: test
+    ansible_ssh_pass: test
+```
 
 ### Playbooks
 
@@ -199,7 +220,16 @@ The main context for Ansible execution, this playbook object maps managed nodes 
 variables, roles and an ordered lists of tasks and can be run repeatedly. It basically consists of an implicit loop over
 the mapped hosts and tasks and defines how to iterate over them.
 
-![](./talk/assets/play.png)
+```yaml
+- name: Ping
+  hosts: leafs
+  tasks:
+    - name: Ping my hosts
+      ansible.builtin.ping:
+    - name: Print message
+      ansible.builtin.debug:
+        msg: Hello world
+```
 
 #### Roles
 
@@ -221,14 +251,43 @@ The definition of an ‘action’ to be applied to the managed host. Tasks must 
 indirectly (Role, or imported/included task list file). You can execute a single task once with an ad hoc command using
 ansible or ansible-console (both create a virtual Play).
 
-![](./talk/assets/tasks.png)
+```yaml
+  tasks:
+    - name: Touch file with hostname role
+      include_role:
+        name: hostname
+      vars:
+        dir: '/opt/a'
+      tags: typeA
+    - name: Setup NTP
+      include_role:
+        name: ntp
+    - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
+      ansible.builtin.file:
+        path: /etc/foo.conf
+        state: touch
+        mode: u=rw,g=r,o=r
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /etc/some_directory
+        state: directory
+        mode: '0755'
+```
 
 #### Handlers
 
 A special form of a Task, that only executes when notified by a previous task which resulted in a ‘changed’ status.
 
-![](./talk/assets/handler_restart.png)
-![](./talk/assets/handler_notify.png)
+```yaml
+- name: restart apache
+  service: name=apache2 state=restarted
+```
+
+```yaml
+- name: Enable Apache rewrite module (required for Drupal).
+  apache2_module: name=rewrite state=present
+  notify: restart apache
+```
 
 ### Variables & Facts
 
