@@ -339,12 +339,23 @@ A special form of a Task, that only executes when notified by a previous task wh
 
 #### Condition
 
+- Conditions enable you to control the flow of tasks based on certain conditions. Ansible uses
+  Jinja2 templating syntax for defining conditions.
+
 ```yaml
   - name: Install Apache on Debian
     apt:
       name: apache2
       state: present
     when: ansible_distribution == 'Debian'
+```
+
+```yaml
+  - name: Check if a file exists
+    stat:
+      path: /path/to/file
+    register: file_stat
+    failed_when: file_stat.stat.exists == false
 ```
 
 ![](./talk/assets/condition_play.png)

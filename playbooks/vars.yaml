@@ -1,0 +1,23 @@
+- name: Vars
+  hosts: centos
+  tasks:
+    - name: Retrieve the list of home directories
+      ansible.builtin.command: ls /home
+      register: home_dirs
+#    - name: Debug home dirs
+#      ansible.builtin.debug:
+#          msg: "{{ home_dirs }}"
+#    - name: Check if a file exists
+#      stat:
+#        path: /path/to/file
+#      register: file_stat
+#      failed_when: file_stat.stat.exists == false
+    - name: "Start the Apache HTTPD Server"
+      become: true
+      become_user: root
+      register: starthttpdout
+      shell: "httpd -k start"
+      changed_when: "'already running' not in starthttpdout.stdout"
+
+    - debug:
+        msg: "{{starthttpdout.stdout}}"

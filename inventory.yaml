@@ -9,6 +9,8 @@ leafs:
   vars:
     ansible_user: test
     ansible_ssh_pass: test
+    airflow_fernet_key: hihi
+    my_param: 50
 spines:
   hosts:
     vm02:
