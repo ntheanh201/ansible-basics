@@ -29,8 +29,8 @@ centos:
   hosts:
     vm06:
       ansible_host: vm05
-      ansible_user: root
-      ansible_ssh_pass: root
+#      ansible_user: root
+#      ansible_ssh_pass: root
       ansible_port: 2226
 network:
   children:

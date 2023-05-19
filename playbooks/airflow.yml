@@ -1,0 +1,16 @@
+- name: Install Airflow
+  hosts: centos
+  gather_facts: true
+  become: yes
+  become_user: john
+
+  vars:
+    distribution: 'CentOS'
+
+  tasks:
+    - name: Install Airflow via Role
+      import_role:
+        name: airflow
+    - name: Debug message
+      ansible.builtin.debug:
+        msg: '{{ distribution }}'

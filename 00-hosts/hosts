@@ -1,0 +1,2 @@
+[centos]
+localhost ansible_port=2226 ansible_user=root
