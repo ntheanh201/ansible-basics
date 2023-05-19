@@ -1,2 +1,4 @@
 ---
 # handlers file for centos_ntp
+- name: restart ntpd
+  service: name=ntpd state=restarted

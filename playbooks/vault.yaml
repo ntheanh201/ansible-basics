@@ -1,0 +1,24 @@
+- name: Try Ansible-Vault
+  hosts: centos
+  gather_facts: true
+  become: yes
+
+  vars:
+    ansible_pw: 'apsss'
+    airflow_pypi_index_url: 'default vars'
+    airflow_pypi_index_host: 'host'
+    airflow_inst_dir: 'hihi'
+
+  tasks:
+    - name: Install NTP
+      import_role:
+        name: centos_ntp
+    - name: Try logging encrypted values
+      ansible.builtin.debug:
+        msg: '{{ item }}'
+      with_items:
+        - '{{ ansible_pw }}'
+        - '{{ airflow_pypi_index_url }}'
+        - '{{ airflow_pypi_index_host }}'
+        - '{{ airflow_inst_dir }}'
+

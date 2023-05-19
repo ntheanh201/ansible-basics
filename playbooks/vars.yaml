@@ -17,7 +17,7 @@
       become_user: root
       register: starthttpdout
       shell: "httpd -k start"
-      changed_when: "'already running' not in starthttpdout.stdout"
+      changed_when: false
 
     - debug:
         msg: "{{starthttpdout.stdout}}"
