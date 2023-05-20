@@ -362,6 +362,13 @@ A special form of a Task, that only executes when notified by a previous task wh
 
 #### Loops
 
+- Often you’ll want to do many things in one task, such as create a lot of users, install a lot of packages, or repeat a
+  polling step until a certain result is reached.
+
+##### Standard Loops
+
+###### Iterating over a simple list
+
 ```yaml
   - name: Install multiple packages
     apt:
@@ -372,6 +379,25 @@ A special form of a Task, that only executes when notified by a previous task wh
       - mysql-server
       - php-fpm
 ```
+
+The above would be the equivalent of:
+
+```yaml
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: present
+  - name: Install mysql-server
+    apt:
+      name: mysql-server
+      state: present
+  - name: Install php-fpm
+    apt:
+      name: php-fpm
+      state: present
+```
+
+###### Iterating over a list of hashes
 
 ```yaml
   - name: Create multiple users
@@ -386,18 +412,71 @@ A special form of a Task, that only executes when notified by a previous task wh
         password: pass2
 ```
 
-### Roles & Role-based Tasks
+### Roles
 
-## Advanced Ansible Concepts
+- Roles let you automatically load related vars, files, tasks, handlers, and other Ansible artifacts based on a known
+  file structure. After you group your content in roles, you can easily reuse them and share them with other users.
+
+```shell
+myrole/
+├── tasks/
+│   ├── main.yml
+│   └── ...
+├── handlers/
+│   ├── main.yml
+│   └── ...
+├── templates/
+│   ├── template1.j2
+│   └── ...
+├── files/
+│   ├── file1.txt
+│   └── ...
+├── vars/
+│   ├── main.yml
+│   └── ...
+└── meta/
+    └── main.yml
+```
+
+By default Ansible will look in each directory within a role for a main.yml file for relevant content (also main.yaml
+and main):
+
+- `tasks/main.yml` - the main list of tasks that the role executes.
+
+- `handlers/main.yml` - handlers, which may be used within or outside this role.
+
+- `defaults/main.yml` - default variables for the role. These variables have
+  the lowest priority of any variables available, and can be easily overridden by any other variable, including
+  inventory variables.
+
+- `vars/main.yml` - other variables for the role.
+
+- `files/main.yml` - files that the role deploys.
+
+- `templates/main.yml` - templates that the role deploys.
+
+- `meta/main.yml` - metadata for the role, including role dependencies and optional Galaxy metadata such as platforms
+  supported.
 
 ### Ansible Vault
 
-### Ansible Galaxy
+- Ansible vault provides a way to encrypt and manage sensitive data such as passwords.
+- To create an encrypted file with Ansible Vault:
+  `ansible-vault create secrets.yml`
+- To encrypt an existing unencrypted file:
+  `ansible-vault encrypt <file_name>`
+- To edit an encrypted file:
+  `ansible-vault edit secrets.yml`
 
-### Ansible Tower, Ansible AWX
+#### Working with Encrypted files
+
+- Ansible provides the `--ask-vault-password` option to specify the password when running playbooks that use encrypted
+  files.
+
+`ansible-playbook playbook.yml --ask-vault-pass`
 
 ## Automation for Geo cluster
 
-### Apache NiFi
-
 ### Apache Airflow
+
+### Apache NiFi

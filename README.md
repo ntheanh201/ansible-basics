@@ -26,7 +26,9 @@ ansible spines -m ping -i inventory.yaml
 ```
 
 ## Playbook
+
 - Run playbook: `ansible-playbook -i inventory.yaml playbooks/ping.yaml`
 
+## Ansible testing
 
 

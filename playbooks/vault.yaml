@@ -1,6 +1,6 @@
 - name: Try Ansible-Vault
   hosts: centos
-  gather_facts: true
+  gather_facts: false
   become: yes
 
   vars:

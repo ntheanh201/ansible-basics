@@ -2,3 +2,7 @@
 # tasks file for centos_ntp
 #- name: Ensure NTP is installed and running
 #  import_tasks: install.yml
+- name: Copy encrypted file
+  copy:
+    src: nginx.conf
+    dest: /
