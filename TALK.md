@@ -91,6 +91,17 @@ leafs:
   executed. They provide a way to orchestrate and automate complex workflows. Playbooks can include variables,
   conditionals, loops, and even include other playbooks or roles.
 
+```yaml
+- name: Ping
+  hosts: leafs
+  tasks:
+    - name: Ping my hosts
+      ansible.builtin.ping:
+    - name: Print message
+      ansible.builtin.debug:
+        msg: Hello world
+```
+
 ### Modules
 
 - In Ansible, modules are small, self-contained units of code that are responsible for performing specific tasks on
@@ -102,6 +113,13 @@ leafs:
 - Example, there are modules for installing packages (
   apt/yum/dnf/pacman), managing users (user), copying files (copy), manipulating files (lineinfile), and configuring
   services (service), among many others.
+
+```yaml
+- name: "Install Nginx to version with apt module"
+  ansible.builtin.apt:
+    name: "nginx={{ nginx_version }}"
+    state: present
+```
 
 ## Getting Started with Ansible
 
