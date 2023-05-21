@@ -38,4 +38,7 @@ A major difference between import and include tasks:
 - `import` tasks will be parsed at the beginning when you run your playbook
 - `include` tasks will be parsed at the moment Ansible hits them
 
+## Ansible module
+
+- A module is a reusable piece of code that performs specific tasks on managed node
 
