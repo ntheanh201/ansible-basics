@@ -536,8 +536,8 @@ Apache Airflow is an open-source platform for developing, scheduling, and monito
 
 2. Add new hosts
 
-   Thêm host cần triển khai vào group airflow_* tương ứng trong file hosts của môi trường `00-environment/<env_name>
-   /hosts/09-airflow`
+   Add the hosts to be deployed to the corresponding airflow_* group in the hosts file of
+   the `00-environment/<env_name>/hosts/09-airflow` environment.
 
 3. Run playbooks
 
