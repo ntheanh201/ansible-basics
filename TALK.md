@@ -458,6 +458,27 @@ and main):
 - `meta/main.yml` - metadata for the role, including role dependencies and optional Galaxy metadata such as platforms
   supported.
 
+```yaml
+- hosts: webservers
+  tasks:
+    - name: Import the foo_app_instance role
+      import_role:
+        name: foo_app_instance
+      vars:
+        dir: '/opt/a'
+        app_port: 5000
+```
+
+```yaml
+- hosts: webservers
+  tasks:
+    - name: Include the some_role role
+      include_role:
+        name: some_role
+      when: "ansible_facts['os_family'] == 'RedHat'"
+
+```
+
 ### Ansible Vault
 
 - Ansible vault provides a way to encrypt and manage sensitive data such as passwords.

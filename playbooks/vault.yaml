@@ -3,16 +3,22 @@
   gather_facts: false
   become: yes
 
+  roles:
+    - centos_ntp
+
   vars:
     ansible_pw: 'apsss'
     airflow_pypi_index_url: 'default vars'
     airflow_pypi_index_host: 'host'
-    airflow_inst_dir: 'hihi'
+  #    airflow_inst_dir: 'hihi'
 
   tasks:
-    - name: Install NTP
-      import_role:
-        name: centos_ntp
+    - name: Show variable
+      debug:
+        msg: '{{ airflow_inst_dir }}'
+    #    - name: Install NTP
+    #      include_role:
+    #        name: centos_ntp
     - name: Try logging encrypted values
       ansible.builtin.debug:
         msg: '{{ item }}'

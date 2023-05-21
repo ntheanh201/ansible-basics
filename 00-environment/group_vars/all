@@ -1,0 +1,4 @@
+---
+/etc/ansible/group_vars/grp1 fruit: apple
+vegetable: potato
+airflow_rabbitmq_port: 6672

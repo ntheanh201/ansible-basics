@@ -31,4 +31,11 @@ ansible spines -m ping -i inventory.yaml
 
 ## Ansible testing
 
+## Include vs Import
+
+A major difference between import and include tasks:
+
+- `import` tasks will be parsed at the beginning when you run your playbook
+- `include` tasks will be parsed at the moment Ansible hits them
+
 

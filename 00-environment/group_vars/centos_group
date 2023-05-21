@@ -1,0 +1,2 @@
+airflow_rabbitmq_port: 6672
+airflow_rabbitmq_vhost: airflow
