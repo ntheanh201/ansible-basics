@@ -228,15 +228,13 @@ performing troubleshooting operations
 
 ### Playbook Structure
 
-They contain Plays (which are the basic unit of Ansible execution). This is both an ‘execution concept’ and how we
-describe the files on which ansible-playbook operates. Playbooks are written in YAML and are easy to read, write, share
-and understand
+- A playbook is composed of one or more plays to run in a specific order.
+- Playbooks are written in YAML and are easy to read, write, share
+  and understand
 
 #### Plays
 
-The main context for Ansible execution, this playbook object maps managed nodes (hosts) to tasks. The Play contains
-variables, roles and an ordered lists of tasks and can be run repeatedly. It basically consists of an implicit loop over
-the mapped hosts and tasks and defines how to iterate over them.
+- A play is an ordered list of tasks to run against the desired group of hosts.
 
 ```yaml
 - name: Ping
