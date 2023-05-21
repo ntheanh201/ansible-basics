@@ -557,7 +557,7 @@ Apache Airflow is an open-source platform for developing, scheduling, and monito
 
 2. Add new hosts
 
-   Add the hosts to be deployed to the corresponding airflow_* group in the hosts file of
+   Add the hosts to be deployed to the corresponding `airflow_*`, `rabbitmq_*` group in the hosts file of
    the `00-environment/<env_name>/hosts/09-airflow` environment.
 
 3. Run playbooks
@@ -565,4 +565,6 @@ Apache Airflow is an open-source platform for developing, scheduling, and monito
 ```shell
 cd airflow
 ansible-playbook -i ../00-environment/<env_name> airflow.yml --ask-vault-pass
+ansible-playbook -i ../00-environment/<env_name> rabbitmq.yml --ask-vault-pass
+ansible-playbook -i ../00-environment/<env_name> rabbitmq_haproxy.yml --ask-vault-pass
 ```
