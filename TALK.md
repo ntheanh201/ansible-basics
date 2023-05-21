@@ -477,6 +477,71 @@ and main):
 
 ## Automation for Geo cluster
 
+- Geo cluster is using **Geo-hlc3** node as a control node
+- Managed nodes: all remain nodes
+
 ### Apache Airflow
 
-### Apache NiFi
+#### What is Airflow?
+
+Apache Airflow is an open-source platform for developing, scheduling, and monitoring batch-oriented workflows.
+
+* *Airflow Webserver*: The administration interface of Airflow, allowing users to monitor the execution progress of
+  jobs.
+* *Airflow Scheduler*: The scheduling process responsible for managing the timing and sequencing of job executions.
+* *Airflow Worker*: The process running on worker nodes that directly executes jobs.
+* *RabbitMQ*: A message queue system that facilitates communication between the Airflow Scheduler and Airflow Worker.
+* *RabbitMQ HAProxy*: A reverse proxy used to forward connections from clients to the primary RabbitMQ server.
+* *ETCD*: Provides distributed locking functionality used for high availability deployment of the Airflow Scheduler.
+* *Postgresql*: The database system used by Airflow to store configuration information and execution results of jobs.
+
+#### GEO-HLC
+
+##### Airflow
+
+- Version: 1.10.14
+- Service name: airflow-scheduler.service, airflow-webserver.service, airflow-worker.service
+- Service user: airflow
+- Config directory: /etc/airflow
+- Log: /u01/soft_root/var/log/airflow
+- Install: /u01/soft_root/opt/airflow
+
+##### RabbitMQ
+
+- Version: 3.8.9
+- Service name: rabbitmq-server
+- Service user: rabbitmq
+- Config directory: /etc/rabbitmq
+- Log: /var/log/rabbitmq
+
+##### RabbitMQ-HAProxy
+
+- Version: 1.5.18
+- Service name: haproxy-rabbitmq
+- Service user: haproxy-rabbitmq
+- Config directory: /etc/haproxy/rabbitmq
+- Log: journalctl
+
+##### ETCD
+
+- Using the same ETCD from GEO-HLC
+
+##### Postgresql
+
+- Using Postgresql (SysDB) from GEO-HLC
+
+#### Installation
+
+1. The information need to be encrypted by `ansible-vault` and save to `group_vars` of Airflow.
+
+2. Add new hosts
+
+   Thêm host cần triển khai vào group airflow_* tương ứng trong file hosts của môi trường `00-environment/<env_name>
+   /hosts/09-airflow`
+
+3. Run playbooks
+
+```shell
+cd airflow
+ansible-playbook -i ../00-environment/<env_name> airflow.yml --ask-vault-pass
+```

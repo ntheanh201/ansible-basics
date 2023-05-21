@@ -1,17 +1,35 @@
 - name: Vars
-  hosts: centos
+  hosts: "centos_group"
+  gather_facts: false
+
   tasks:
     - name: Retrieve the list of home directories
       ansible.builtin.command: ls /home
       register: home_dirs
-#    - name: Debug home dirs
-#      ansible.builtin.debug:
-#          msg: "{{ home_dirs }}"
-#    - name: Check if a file exists
-#      stat:
-#        path: /path/to/file
-#      register: file_stat
-#      failed_when: file_stat.stat.exists == false
+    - name: Debug home dirs
+      ansible.builtin.debug:
+        msg: "{{ home_dirs }}"
+    - name: Print CentOS Group Variable
+      debug:
+        var: my_variable
+      vars:
+        my_variable: "{{ airflow_rabbitmq_vhost }}"
+    - name: Check required variable
+      assert:
+        that:
+          - airflow_rabbitmq_port | string is defined
+      run_once: true
+    - name: Debug group_vars
+      ansible.builtin.debug:
+        msg: '{{ items }}'
+      with_items:
+        - '{{ home_dirs }}'
+        - '{{ airflow_rabbitmq_port }}'
+    #    - name: Check if a file exists
+    #      stat:
+    #        path: /path/to/file
+    #      register: file_stat
+    #      failed_when: file_stat.stat.exists == false
     - name: "Start the Apache HTTPD Server"
       become: true
       become_user: root
