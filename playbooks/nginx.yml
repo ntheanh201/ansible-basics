@@ -1,8 +1,36 @@
 - name: Webserver
   hosts: centos_group
+  gather_facts: yes
   become: yes
 
   tasks:
-    - name: Install nginx
-      include_role:
-        name: nginx
+#    - name: Install nginx
+#      include_role:
+#        name: nginx
+    - name: Check distribution
+      debug:
+        msg: "{{ ansible_facts['distribution'] }}"
+#      when: ansible_distribution == 'Cen'
+#    - name: Check if a file exists
+#      stat:
+#        path: /
+#      register: file_stat
+##      failed_when: file_stat.stat.exists == false
+#    - name: Debug
+#      debug:
+#        msg: "{{ file_stat }}"
+    - name: Install wget
+      package:
+        name: wget
+        state: present
+    - name: Download mysql repo
+      shell: wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm -P ~
+    - name: Add repo
+      shell: rpm -ivh ~/mysql80-community-release-el7-3.noarch.rpm
+    - name: Install multiple packages
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - nginx
+        - mysql-server

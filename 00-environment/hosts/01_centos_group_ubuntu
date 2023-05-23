@@ -1,0 +1,8 @@
+[centos_group:children]
+centos
+
+[centos_group:vars]
+airflow_rabbitmq_vhost=airflow
+
+[centos]
+vm07 ansible_host=localhost ansible_ssh_user=root ansible_ssh_pass=root ansible_port=2225

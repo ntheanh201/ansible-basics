@@ -8,9 +8,12 @@
     distribution: 'CentOS'
 
   tasks:
-    - name: Install Airflow via Role
-      import_role:
-        name: airflow
+    - name: Test
+      debug:
+        msg: "{{ airflow_rabbitmq_port }}"
+#    - name: Install Airflow via Role
+#      import_role:
+#        name: airflow
     - name: Debug message
       ansible.builtin.debug:
         msg: '{{ distribution }}'
